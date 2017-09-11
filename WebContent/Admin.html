@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<table class="tftable">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Mass</th>
+    <tr *ngFor="survey">
+        <td>{{SurveyBean.id}}</td>
+        <td>{{vehicle.name}}</td>
+        <td>{{vehicle.type}}</td>
+        <td>{{vehicle.mass}}</td>
+    </tr>
+    
+</table>
+<button id='addS'>ADD Survey</button>
+<button id='updateSurvey'>Update Survey</button>
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+<script type='text/javascript'>
+	$(function(){
+		$.get('./rest/surveys/', function(resp){
+			$.each(resp, function(k,v){
+				$('.tftable').append('<tr><td>'+v.title+'</td></tr>')
+			});
+			console.log(resp);
+		});
+		$('#addS').click(function(e){
+			e.preventDefault();
+			$.post('./rest/surveys/', {'title':"Posted title", "desc": "Posted Desc", 'choice':"yes\nno"},function(resp){
+				console.log(resp);
+			})
+		});
+		$('#updateSurvey').click(function(e){
+			e.preventDefault();
+			$.ajax({
+			  url: './rest/surveys/5',
+			  type: 'PUT',
+			  data: "res=yes",
+			  success: function(data) {
+				  console.log(data);
+			  }
+			});
+		});
+	});
+</script>
+</body>
+</html>
